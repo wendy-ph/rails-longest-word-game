@@ -10,7 +10,7 @@ class GamesController < ApplicationController
 
   def score
     word_chars = params[:word].upcase.chars
-
+  raise
     @message = if validate_word(params[:word])
                  if word_chars.all? { |a| word_chars.count(a) <= params[:letters].count(a) }
                    "Congratulations! #{params[:word]} is a valid English word."
