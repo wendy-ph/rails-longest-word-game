@@ -1,6 +1,3 @@
-require 'json'
-require 'open-uri'
-
 class GamesController < ApplicationController
   def new
     alphabet = ('A'..'Z').to_a
@@ -10,9 +7,10 @@ class GamesController < ApplicationController
 
   def score
     word_chars = params[:word].upcase.chars
-  raise
+    @score = 0
     @message = if validate_word(params[:word])
                  if word_chars.all? { |a| word_chars.count(a) <= params[:letters].count(a) }
+                  @score += params[:word].length
                    "Congratulations! #{params[:word]} is a valid English word."
                  else
                    "Sorry, but #{params[:word]} cannot be built out of #{params[:letters]}."
@@ -20,7 +18,16 @@ class GamesController < ApplicationController
                else
                  "#{params[:word]} is not an English word."
                end
-    #  raise
+    total_score(@score)
+  end
+
+  def reset
+    session.delete(:score)
+    redirect_to new_path
+  end
+
+  def total_score(score)
+    session[:score].nil? ? session[:score] = score : session[:score] += score
   end
 
   private

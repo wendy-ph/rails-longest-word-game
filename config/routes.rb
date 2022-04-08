@@ -3,5 +3,7 @@ Rails.application.routes.draw do
 
   get '/new', to: 'games#new'
 
-  post 'score', to: 'games#score'
+  post '/score', to: 'games#score'
+
+  post '/reset', to: 'games#reset'
 end
